@@ -6,19 +6,20 @@ $("#getUrl").on('click', function () {
     const postUrl = $("#postUrl").val();
 
     fetchUrl(postUrl).done(data => {
-        if (data[0] && data[0].data.children[0].data.media) {
+        if (data[0] && (data[0].data.children[0].data.media || data[0].data.children[0].data.url)) {
             const children = data[0].data.children[0].data;
             const media = children.media;
+            const videoUrl = media ? (media.reddit_video ? media.reddit_video.fallback_url : children.url) : '';
             console.log(data);
-            const videoUrl = media.reddit_video ? media.reddit_video.fallback_url : (media.oembed ? children.url : 'No video found.');
-            $("#videoUrl").html(videoUrl).attr('href', videoUrl);
+            $("#videoUrl").html(videoUrl || 'No video found.').attr('href', videoUrl || children.url);
         } else {
             console.log(data);
             $("#videoUrl").html('No video found.');
         }
     }).fail(error => {
         console.error(error);
-        $("#videoUrl").html(error.statusText);
+        const errorMessage = error.responseJSON.quarantine_message || error.statusText;
+        $("#videoUrl").html("Quarantine: " + errorMessage);
     });
 });
 
