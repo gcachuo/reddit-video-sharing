@@ -7,7 +7,10 @@ $("#getUrl").on('click', function () {
 
     fetchUrl(postUrl).done(data => {
         if (data[0] && data[0].data.children[0].data.media) {
-            const videoUrl = (data[0].data.children[0].data.media.reddit_video.fallback_url);
+            const children = data[0].data.children[0].data;
+            const media = children.media;
+            console.log(data);
+            const videoUrl = media.reddit_video ? media.reddit_video.fallback_url : (media.oembed ? children.url : 'No video found.');
             $("#videoUrl").html(videoUrl).attr('href', videoUrl);
         } else {
             console.log(data);
