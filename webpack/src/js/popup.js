@@ -6,11 +6,11 @@ $("#getUrl").on('click', function () {
     const postUrl = $("#postUrl").val();
 
     fetchUrl(postUrl).done(data => {
-        console.log(data);
-        if (data[0]) {
+        if (data[0] && data[0].data.children[0].data.media) {
             const videoUrl = (data[0].data.children[0].data.media.reddit_video.fallback_url);
             $("#videoUrl").html(videoUrl).attr('href', videoUrl);
         } else {
+            console.log(data);
             $("#videoUrl").html('No video found.');
         }
     }).fail(error => {
