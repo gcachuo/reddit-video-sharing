@@ -1,6 +1,6 @@
 {
   "name": "Reddit Video Sharing",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Gets the URL of a reddit video for sharing.",
   "permissions": [
     "declarativeContent",
